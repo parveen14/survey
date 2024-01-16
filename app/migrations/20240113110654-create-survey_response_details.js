@@ -1,9 +1,9 @@
-'use strict';
-const { DataTypes } = require('sequelize');
+"use strict";
+const { DataTypes } = require("sequelize");
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up(queryInterface, Sequelize) {
     return queryInterface.createTable("survey_response_details", {
       id: {
         allowNull: false,
@@ -12,20 +12,32 @@ module.exports = {
         defaultValue: DataTypes.UUIDV4,
       },
       survey_response_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: false,
+        references: {
+          model: 'survey_responses',
+          key: 'id'
+        }
       },
       question_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: false,
+        references: {
+          model: 'questions',
+          key: 'id'
+        }
       },
       score: {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
       option_id: {
-        type: DataTypes.STRING,
+        type: DataTypes.UUID,
         allowNull: false,
+        references: {
+          model: 'question_options',
+          key: 'id'
+        }
       },
       text_answer: {
         type: DataTypes.STRING,
@@ -57,7 +69,7 @@ module.exports = {
     });
   },
 
-  async down (queryInterface, Sequelize) {
-    return await queryInterface.dropTable('survey_response_details');
-  }
+  async down(queryInterface, Sequelize) {
+    return await queryInterface.dropTable("survey_response_details");
+  },
 };

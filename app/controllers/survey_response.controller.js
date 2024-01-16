@@ -9,38 +9,39 @@ function create(req, res) {
   // Add Question
   const question = {
     ...req.body,
-    survey_id: surveyId
+    survey_id: surveyId,
   };
 
   // Save Survey in the database
   SurveyResponse.create(question)
-    .then(data => {
+    .then((data) => {
       res.send(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Question."
+          err.message || "Some error occurred while creating the Question.",
       });
     });
-};
+}
 
 // Retrieve all response within survey.
 function findAll(req, res) {
   const surveyId = req.params.surveyId;
-  const condition =  { survey_id: surveyId };
+  const condition = { survey_id: surveyId };
 
   SurveyResponse.findAll({ where: condition })
-    .then(data => {
+    .then((data) => {
       res.send(data);
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving Surveys response"
+          err.message ||
+          "Some error occurred while retrieving Surveys response",
       });
     });
-};
+}
 
 // Delete a survey response by id
 function deleteOne(req, res) {
@@ -48,25 +49,25 @@ function deleteOne(req, res) {
   const surveyId = req.params.surveyId;
 
   SurveyResponse.destroy({
-    where: { id: id, survey_id: surveyId }
+    where: { id: id, survey_id: surveyId },
   })
-    .then(num => {
+    .then((num) => {
       if (num == 1) {
         res.send({
-          message: "survey response was deleted successfully!"
+          message: "survey response was deleted successfully!",
         });
       } else {
         res.send({
-          message: `Cannot delete survey response with id=${id}. Maybe survey response was not found!`
+          message: `Cannot delete survey response with id=${id}. Maybe survey response was not found!`,
         });
       }
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).send({
-        message: "Could not delete survey response with id=" + id
+        message: "Could not delete survey response with id=" + id,
       });
     });
-};
+}
 
 module.exports = {
   create,
